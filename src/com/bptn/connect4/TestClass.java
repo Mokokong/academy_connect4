@@ -12,7 +12,7 @@ public class TestClass {
 
 /*
  * GITHUB LINK
- * https://github.com/Mokokong/academy_4InaRow_java
+ * https://github.com/Mokokong/academy_connect4
  * 
  */
 
