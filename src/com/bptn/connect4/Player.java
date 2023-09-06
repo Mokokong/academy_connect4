@@ -10,9 +10,9 @@ The player class is concerned with describing a player and things that relate to
 public class Player {
 
 	private String name;
-	
-	
 	private String playerNumber;
+	private String playerPiece;
+	static int id = 1;
 	
 	// Question: should scanner be static or not?
 	// Static: it needs to be accessible to all objects of the class but that is subject to change if more classes 
@@ -25,6 +25,17 @@ public class Player {
 		this.playerNumber = playerNumber;
 		
 	}
+	
+	public Player(String name) {
+		   
+		this.name = name;
+//		this.playerNumber = setplayerColor();
+		this.playerNumber = Integer.toString(id);
+		id++;
+		this.playerPiece = setplayerColor();
+		
+	}
+	
 	
 	// create getter methods
 	public String getName() {
@@ -63,4 +74,90 @@ public class Player {
 	public String toString() {
 	    return ("Player " + playerNumber + " is " + name);
 	}
+
+
+	// color selection
+	
+	private String setplayerColor() {
+		int color ;
+		String playerColor ="";
+		System.out.println("Select your color from the following:");
+		System.out.println("1. Red "
+						+ "\n2. Green"
+						+ "\n3. Yellow"
+						+ "\n4. Blue"
+						+ "\n5. Purple"
+						+ "\n6. Cyan"
+						+ "\nAny other number for the default color");
+		try {
+			color = scanner.nextInt();
+			
+		} catch (InputMismatchException ime) {
+			System.out.println("Your selection was not a number."
+							+ "\nPlease re-enter you color selection as above");
+			scanner.nextLine();
+			color = scanner.nextInt();
+		}
+		
+		
+		
+		switch (color) 
+		{
+		
+			case 1: {
+				playerColor = (ConsoleColors.RED + playerNumber + ConsoleColors.RESET);
+				break;
+	
+			}
+			
+			case 2: {
+				playerColor = (ConsoleColors.GREEN + playerNumber + ConsoleColors.RESET);
+				
+				break;
+	
+			}
+			
+			case 3: {
+				playerColor = (ConsoleColors.YELLOW +playerNumber + ConsoleColors.RESET);
+				
+				break;
+	
+			}
+			
+			case 4: {
+				playerColor = (ConsoleColors.BLUE +playerNumber + ConsoleColors.RESET);
+				
+				break;
+	
+			}
+			
+			case 5: {
+				playerColor = (ConsoleColors.PURPLE + playerNumber + ConsoleColors.RESET);
+				
+				break;
+	
+			}
+			
+			case 6: {
+				playerColor = (ConsoleColors.CYAN +playerNumber + ConsoleColors.RESET);
+				break;
+	
+			}
+	
+			default: {
+				playerColor = playerNumber;
+				break;
+			}
+		}
+	
+		return playerColor;
+	}
+
+	public String getPlayerPiece() {
+		return playerPiece;
+	}
+
+	
+	
+
 }

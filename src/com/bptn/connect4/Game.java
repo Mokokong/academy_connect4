@@ -53,8 +53,12 @@ public class Game {
 
             Player currentPlayer = players[currentPlayerIndex];
             // Override default tostring for Player class
+//            System.out.println("It is player " + currentPlayer.getPlayerNumber() + "'s turn. " + currentPlayer);
+//           
+            
             System.out.println("It is player " + currentPlayer.getPlayerNumber() + "'s turn. " + currentPlayer);
             playerTurn(currentPlayer);
+            
             if (board.checkIfPlayerIsTheWinner(currentPlayer.getPlayerNumber())) {
                 printWinner(currentPlayer);
                 scanner.close();
@@ -71,7 +75,9 @@ public class Game {
     private void createPlayers() {
     	
 		System.out.println("Enter player 1's name: ");
-		players[0] = new Player(scanner.nextLine(), "1");
+//		players[0] = new Player(scanner.nextLine(), "1");
+		players[0] = new Player(scanner.nextLine());
+		
 		System.out.println("Enter player 2's name: ");
 		String playerTwoName = scanner.nextLine();
 
@@ -95,7 +101,9 @@ public class Game {
 
 		}
 		
-		players[1] = new Player(playerTwoName, "2");
+//		players[1] = new Player(playerTwoName, "2");
+		
+		players[1] = new Player(playerTwoName);
 
 	}
 
@@ -131,10 +139,16 @@ public class Game {
 		}
 		
 		
-		while (!board.addToken(col, currentPlayer.getPlayerNumber())) {
+//		while (!board.addToken(col, currentPlayer.getPlayerNumber())) {
+//		       // call board method to add token.
+//		    	 board.addToken(col,  currentPlayer.getPlayerNumber());
+//		}
+		
+		while (!board.addToken(col, currentPlayer.getPlayerPiece())) {
 		       // call board method to add token.
-		    	 board.addToken(col,  currentPlayer.getPlayerNumber());
+		    	 board.addToken(col,  currentPlayer.getPlayerPiece());
 		}
+
 
 	}
 
