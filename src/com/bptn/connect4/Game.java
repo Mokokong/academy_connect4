@@ -1,5 +1,8 @@
 package com.bptn.connect4;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.bptn.connect4.Exceptions.*;
@@ -11,15 +14,20 @@ public class Game {
     private static Scanner scanner = new Scanner(System.in);
 
     public Game() {
-        // Let's default it two players for now. Later, you can improve upon this to allow the game creator to choose how many players are involved.
-        this.players = new Player[2];	// complete line.**
-        this.board = new Board();	 	// complete line**
+        
+    	int count = getPlayerNumber();
+
+        this.players = new Player[count];	
+        this.board = new Board();	 	
     }
 
     public void setUpGame() {
     
-        // create players
-    	createPlayers();
+        // create players(for 2 players only)
+    	//createPlayers();
+    	
+    	// create 2 or more players
+    	createMorePlayers();
 
         // set up the board using the appropriate method
     	board.boardSetUp();
@@ -59,12 +67,12 @@ public class Game {
             System.out.println("It is player " + currentPlayer.getPlayerNumber() + "'s turn. " + currentPlayer);
             playerTurn(currentPlayer);
             
-            if (board.checkIfPlayerIsTheWinner(currentPlayer.getPlayerNumber())) {
+            if (board.checkIfPlayerIsTheWinner(currentPlayer.getPlayerPiece())) {
                 printWinner(currentPlayer);
                 scanner.close();
                 noWinner = false;
             } else {
-                currentPlayerIndex = (currentPlayerIndex+1 )%2;// reassign the variable to allow the game to continue. Note the index would wrap back to the first player if we are at the end. Think of using modulus (%).**
+                currentPlayerIndex = (currentPlayerIndex+1 )%players.length;// reassign the variable to allow the game to continue. Note the index would wrap back to the first player if we are at the end. Think of using modulus (%).**
             }
         }
     }
@@ -75,7 +83,7 @@ public class Game {
     private void createPlayers() {
     	
 		System.out.println("Enter player 1's name: ");
-//		players[0] = new Player(scanner.nextLine(), "1");
+
 		players[0] = new Player(scanner.nextLine());
 		
 		System.out.println("Enter player 2's name: ");
@@ -92,16 +100,13 @@ public class Game {
 				break;
 			}
 
-			// wrap the code in here with a conditional block that enables the check
-			// described above.**
+			
 
 			System.out.println("Error! Both Players cannot have the same name.");
 			System.out.println("Enter player 2's name: ");
 			playerTwoName = scanner.nextLine();
 
 		}
-		
-//		players[1] = new Player(playerTwoName, "2");
 		
 		players[1] = new Player(playerTwoName);
 
@@ -164,6 +169,98 @@ public class Game {
 	}
 
 	
+	//prompts game creator to make select number of players
+	private int getPlayerNumber() {
+		
+		int playerCount=-1;
+		
+		while (true) {
+			
+			// ensure input is an int
+			try {
+				System.out.println("How many players would you like to have?"
+						+ "\nInput must be greater than or equal to 2");
+
+				playerCount = scanner.nextInt();
+				
+			} catch (InputMismatchException ime) {
+				System.out.println("Your input was not number >=2"
+						+ "\nHow many players would you like to have?"
+						+ "\nInput must be greater than or equal to 2");
+		
+				scanner.nextLine();
+				playerCount = scanner.nextInt();
+			}
+			
+			if(playerCount>1) {
+				break;
+			}
+			
+		}
+		
+				
+		
+		
+		return playerCount;
+	}
 	
+	// creates 2 or more players..upper limit on players not implemented
+	private void createMorePlayers() {
+	    	
+			System.out.println("\nEnter player 1's name: ");
+			scanner.nextLine();
+			players[0] = new Player(scanner.nextLine());
+			
+			for (int i = 1; i < players.length; i++) {
+				
+				System.out.println("\nEnter player "+(i+1)+"'s name: ");
+				String nextplayerName = scanner.nextLine();
+
+				/**
+				 * Add logic to prevent a user from giving a second name that's equal to the
+				 * first. Allow the user to try as long as the names are not different.
+				 */
+				while (true) {
+					//check if  name already exists
+					boolean repeated = nameAlreadyTaken(nextplayerName);
+					if (!repeated) {
+						break;
+					}
+
+					System.out.println("\nError! That name is already taken");
+					System.out.println("Re-Enter player "+(i+1)+"'s name: ");
+					nextplayerName = scanner.nextLine();
+
+				}
+
+
+				players[i] = new Player(nextplayerName);
+
+				
+				
+			}
+			
+			
+		}
+
+	 // check if name already taken
+	 private boolean nameAlreadyTaken(String name) {
+		 
+		 ArrayList<Player> playersArray = new ArrayList<>(Arrays.asList(players)) ;
+		 
+		 // remove all null players
+		 while (playersArray.remove(null)) {}
+		 
+		
+		 for (Player player : playersArray) {
+			 
+			 if (player.getName().equals(name)) {
+				 return true;
+				
+			}
+			
+		}
+		return false; 
+	 }
 
 }

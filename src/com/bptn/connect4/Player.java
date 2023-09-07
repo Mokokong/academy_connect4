@@ -81,7 +81,7 @@ public class Player {
 	private String setplayerColor() {
 		int color ;
 		String playerColor ="";
-		System.out.println("Select your color from the following:");
+		System.out.println("\nSelect your color from the following:");
 		System.out.println("1. Red "
 						+ "\n2. Green"
 						+ "\n3. Yellow"
@@ -155,6 +155,24 @@ public class Player {
 
 	public String getPlayerPiece() {
 		return playerPiece;
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
 	
